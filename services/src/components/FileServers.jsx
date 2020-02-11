@@ -17,6 +17,7 @@ import i18n from '../utils/i18n';
 
 import FileServerSummary from './FileServerSummary.jsx';
 import AlertSummary from './AlertSummary.jsx';
+import FilesApps from './FilesApps';
 
 // Actions
 import {
@@ -39,7 +40,7 @@ class FileServers extends React.Component {
 
     this.state = {
       loading: false,
-      showSummary: true,
+      tab: AppConstants.SUMMARY_TAB_KEY,
       ebConfiguration: this.getEbConfiguration(AppConstants.ENTITY_TYPES.ENTITY_FILE_SERVER)
     };
   }
@@ -98,14 +99,15 @@ class FileServers extends React.Component {
   }
 
   onMenuChange = (e) => {
-    if (e.key !== AppConstants.SUMMARY_TAB_KEY) {
+    if (e.key === AppConstants.SUMMARY_TAB_KEY || 
+      e.key === AppConstants.FILES_APPS_TAB_KEY) {
       this.setState({
-        showSummary: false,
-        ebConfiguration: this.getEbConfiguration(e.key)
+        tab: e.key
       });
     } else {
       this.setState({
-        showSummary: true
+        tab: e.key,
+        ebConfiguration: this.getEbConfiguration(e.key)
       });
     }
   }
@@ -140,6 +142,9 @@ class FileServers extends React.Component {
           <MenuItem key={ AppConstants.ENTITY_TYPES.ENTITY_EVENT }>
             { i18nT('events', 'Events') }
           </MenuItem>
+          <MenuItem key={ AppConstants.FILES_APPS_TAB_KEY }>
+            { i18nT('FilesApps', 'Files Apps') }
+          </MenuItem>
         </MenuGroup>
       </Menu>
     );
@@ -163,29 +168,41 @@ class FileServers extends React.Component {
     }
   }
 
+  rightBody() {
+
+          switch (this.state.tab) {
+            case AppConstants.SUMMARY_TAB_KEY:
+              return (
+                <FlexLayout className="entity-browser" itemSpacing="0px" flexGrow="1">
+                  <FlexItem className="main-content" flexGrow="1">
+                    <FlexLayout itemSpacing="10px" flexGrow="1" itemFlexBasis="100pc">
+                      <FlexItem>
+                        <FileServerSummary />
+                      </FlexItem>
+                      <FlexItem>
+                        <AlertSummary />
+                      </FlexItem>
+                    </FlexLayout>
+                  </FlexItem>
+                </FlexLayout>
+              )
+            case AppConstants.FILES_APPS_TAB_KEY:
+              return <FilesApps />
+            default:
+              return <EntityBrowser { ...this.state.ebConfiguration } />
+          }
+  }
+
   render() {
     if (this.state.loading) {
       return <Loader />;
     }
     return (
       <LeftNavLayout leftPanel={ this.getLeftPanel() } itemSpacing="0"
-        rightBodyContent={ !this.state.showSummary ? (
-          <EntityBrowser { ...this.state.ebConfiguration } />
-        ) : (
-          <FlexLayout className="entity-browser" itemSpacing="0px" flexGrow="1">
-            <FlexItem className="main-content" flexGrow="1">
-              <FlexLayout itemSpacing="10px" flexGrow="1" itemFlexBasis="100pc">
-                <FlexItem>
-                  <FileServerSummary />
-                </FlexItem>
-                <FlexItem>
-                  <AlertSummary />
-                </FlexItem>
-              </FlexLayout>
-            </FlexItem>
-          </FlexLayout>
-        )
-        } />
+        rightBodyContent={ 
+          this.rightBody()
+        }
+      />
     );
   }
 

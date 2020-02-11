@@ -20,10 +20,13 @@ const AppConstants = {
   },
 
   SUMMARY_TAB_KEY: 'summary',
+  FILES_APPS_TAB_KEY: 'files_apps',
 
   // Target and State for Header IFrame dom click listener
   IFRAME_EVENT_OPEN_PE: 'iframe_event_open_pe',
+  IFRAME_EVENT_OPEN_FILES_APP: 'iframe_event_open_files_app',
   FS_PC_TO_PE: 'fs_pc_to_pe',
+  FS_OPEN_APP: 'fs_open_app',
 
   ENTITY_TYPES: {
     ENTITY_FILE_SERVER: 'file_server_service',
