@@ -99,7 +99,7 @@ class FileServers extends React.Component {
   }
 
   onMenuChange = (e) => {
-    if (e.key === AppConstants.SUMMARY_TAB_KEY || 
+    if (e.key === AppConstants.SUMMARY_TAB_KEY ||
       e.key === AppConstants.FILES_APPS_TAB_KEY) {
       this.setState({
         tab: e.key
@@ -169,28 +169,27 @@ class FileServers extends React.Component {
   }
 
   rightBody() {
-
-          switch (this.state.tab) {
-            case AppConstants.SUMMARY_TAB_KEY:
-              return (
-                <FlexLayout className="entity-browser" itemSpacing="0px" flexGrow="1">
-                  <FlexItem className="main-content" flexGrow="1">
-                    <FlexLayout itemSpacing="10px" flexGrow="1" itemFlexBasis="100pc">
-                      <FlexItem>
-                        <FileServerSummary />
-                      </FlexItem>
-                      <FlexItem>
-                        <AlertSummary />
-                      </FlexItem>
-                    </FlexLayout>
-                  </FlexItem>
-                </FlexLayout>
-              )
-            case AppConstants.FILES_APPS_TAB_KEY:
-              return <FilesApps />
-            default:
-              return <EntityBrowser { ...this.state.ebConfiguration } />
-          }
+    switch (this.state.tab) {
+      case AppConstants.SUMMARY_TAB_KEY:
+        return (
+          <FlexLayout className="entity-browser" itemSpacing="0px" flexGrow="1">
+            <FlexItem className="main-content" flexGrow="1">
+              <FlexLayout itemSpacing="10px" flexGrow="1" itemFlexBasis="100pc">
+                <FlexItem>
+                  <FileServerSummary />
+                </FlexItem>
+                <FlexItem>
+                  <AlertSummary />
+                </FlexItem>
+              </FlexLayout>
+            </FlexItem>
+          </FlexLayout>
+        );
+      case AppConstants.FILES_APPS_TAB_KEY:
+        return <FilesApps />;
+      default:
+        return <EntityBrowser { ...this.state.ebConfiguration } />;
+    }
   }
 
   render() {
@@ -199,7 +198,7 @@ class FileServers extends React.Component {
     }
     return (
       <LeftNavLayout leftPanel={ this.getLeftPanel() } itemSpacing="0"
-        rightBodyContent={ 
+        rightBodyContent={
           this.rightBody()
         }
       />

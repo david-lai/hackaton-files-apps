@@ -3,34 +3,25 @@
 //
 // The Files Apps view
 //
-import moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {
   Dashboard,
   DashboardWidgetLayout,
   DashboardWidgetHeader,
-  FlexLayout,
-  FlexItem,
-  Link,
   Title,
-  TextLabel,
   Button
 } from 'prism-reactjs';
-import AppUtil from '../utils/AppUtil';
-import i18n from '../utils/i18n';
 
 // Actions
 import {
   fetchFsAppData
 } from '../actions';
 
-import image from '../images/DSC_0550.jpg'
+// import image from '../images/DSC_0550.jpg';
 
-// Helper to translate strings from this module
-const i18nT = (key, defaultValue, replacedValue) => i18n.getInstance().t(
-  'Summary', key, defaultValue, replacedValue);
 const DURATION = 30000;
 
 class FilesApps extends React.Component {
@@ -52,15 +43,15 @@ class FilesApps extends React.Component {
   // Event handler to open App
   openApp(e) {
     const appUrl = e.currentTarget.getAttribute('data-url');
-	window.open(appUrl, "_blank");
+    window.open(appUrl, '_blank');
   }
 
   // Returns App dashboard
   renderDashboard(data) {
-  	const { name, appUrl, imgLink } = data;
-  	let url = `https://10.48.16.47:9440/${appUrl}`;
-  	return (
-      <div key={name}>
+    const { name, appUrl, imgLink } = data;
+    let url = `https://10.48.16.47:9440/${appUrl}`;
+    return (
+      <div key={ name }>
         <DashboardWidgetLayout
           header={
             <div
@@ -74,9 +65,9 @@ class FilesApps extends React.Component {
               <DashboardWidgetHeader
                 showCloseIcon={ false }
                 title={
-            	  <Title size="h1">
-            		{name}
-            	  </Title>
+                  <Title size="h1">
+                    {name}
+                  </Title>
                 }
               />
             </div>
@@ -95,8 +86,8 @@ class FilesApps extends React.Component {
               </Button>
             </div>
           }
-          bodyContent={ 
-          	<img src={ image }/>
+          bodyContent={
+            <img src={ imgLink } />
           }
           bodyContentProps={
             {
@@ -106,60 +97,27 @@ class FilesApps extends React.Component {
           }
         />
       </div>
-	)
+    );
   }
 
 
   render() {
-  	// const data = [{
-  	//   title: 'app1',
-  	//   desc: '1st App',
-  	//   url: 'https://www.google.com/flights#flt=/m/0f04v..2020-02-27*./m/0f04v.2020-03-02;c:USD;e:1;ls:1w;sd:0;t:h'
-  	// },{
-  	//   title: 'app2',
-  	//   desc: '2nd App',
-  	//   url: 'https://www.evaair.com/en-us/index.html'
-  	// },{
-  	//   title: 'app3',
-  	//   desc: '3rd App',
-  	//   url: 'https://www.dealnews.com/?group=category'
-  	// },{
-  	//   title: 'app4',
-  	//   desc: '4th App',
-  	//   url: 'https://my.yahoo.com/'
-  	// },{
-  	//   title: 'app5',
-  	//   desc: '5th App',
-  	//   url: 'https://www.youtube.com/watch?v=T06yJR-Xzd4'
-  	// },{
-  	//   title: 'app6',
-  	//   desc: '6th App',
-  	//   url: 'https://www.youtube.com/watch?v=m6taYpBBQAA'
-  	// },{
-  	//   title: 'app7',
-  	//   desc: '7th App',
-  	//   url: 'https://www.youtube.com/watch?v=o9NILK4OXpo'
-  	// },{
-  	//   title: 'app8',
-  	//   desc: '8th App',
-  	//   url: 'https://www.youtube.com/watch?v=npZYUkXFqd4'
-  	// }];
-  	const data = this.props.filesAppsData;
-  	const pros = {
-  	  layouts: {
+    const data = this.props.filesAppsData;
+    const pros = {
+      layouts: {
         sm: _.map(data, app => {
-  	      return {i: app.name}
-  	    })
+          return { i: app.name };
+        })
       }
-    }
+    };
 
-  	return (
-  	  <Dashboard {...pros}>
-       { _.map(data, app => {
-         return this.renderDashboard(app)
+    return (
+      <Dashboard { ...pros }>
+        { _.map(data, app => {
+          return this.renderDashboard(app);
         }) }
       </Dashboard>
-  	)
+    );
   }
 
   // Fetch Apps
@@ -185,12 +143,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openModal: (type, options) => dispatch(openModal(type, options)),
     fetchFsAppData: () => dispatch(fetchFsAppData())
   };
 };
 
-FilesApps.propTypes = {};
+FilesApps.propTypes = {
+  fetchFsAppData: PropTypes.func,
+  filesAppsData: PropTypes.array
+};
 
 // export default FilesApps;
 export default connect(

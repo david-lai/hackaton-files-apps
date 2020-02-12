@@ -50,22 +50,22 @@ export const fetchFsData = () => {
 export const fetchFsAppData = () => {
   return async(dispatch) => {
     const query = {
-      "entity_type": "files_app_db",
-      "group_member_sort_attribute": "name",
-      "group_member_sort_order": "ASCENDING",
-      "group_member_offset": 0,
-      "group_member_attributes": [
+      'entity_type': 'files_app_db',
+      'group_member_sort_attribute': 'name',
+      'group_member_sort_order': 'ASCENDING',
+      'group_member_offset': 0,
+      'group_member_attributes': [
         {
-          "attribute": "name"
+          'attribute': 'name'
         },
         {
-          "attribute": "url_link"
+          'attribute': 'url_link'
         },
         {
-          "attribute": "image_link"
+          'attribute': 'image_link'
         }
       ]
-    }
+    };
     const resp = await axios.post(AppConstants.APIS.GROUPS_API, query);
 
     dispatch({

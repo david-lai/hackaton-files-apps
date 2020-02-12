@@ -24,16 +24,16 @@ function groupsapis(state = {}, action) {
       return {
         ...state,
         fsData: payload
-      };    
+      };
     case FETCH_FS_APPS:
       const data = _.map(payload.group_results[0].entity_results, result => {
-        const { data } = result
+        const { data } = result;
         return {
           name: data[0].values[0].values[0],
           appUrl:data[1].values[0].values[0],
           imgLink: data[2].values[0].values[0]
-        }
-      })
+        };
+      });
       return {
         ...state,
         filesAppsData: data
