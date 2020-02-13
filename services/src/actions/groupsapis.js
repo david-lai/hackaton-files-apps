@@ -12,6 +12,9 @@ import AppConstants from './../utils/AppConstants';
 // ------------
 export const FETCH_FS = 'FETCH_FS';
 export const FETCH_FS_APPS = 'FETCH_FS_APPS';
+export const POST_ANONYMIZE = 'POST_ANONYMIZE';
+export const POST_PERMISSION = 'POST_PERMISSION';
+export const POST_CUSTOM = 'POST_CUSTOM';
 
 export const fetchFsData = () => {
   return async(dispatch) => {
@@ -71,6 +74,29 @@ export const fetchFsAppData = () => {
     dispatch({
       type: FETCH_FS_APPS,
       payload: resp.data
+    });
+  };
+};
+
+export const postApp = (type, payload) => {
+  return async(dispatch) => {
+    let api;
+    let apiType;
+    if (type === 'anonymize') {
+      api = AppConstants.APIS.ANONYMIZE_API;
+      apiType = POST_ANONYMIZE;
+    } else if (type === 'permissions') {
+      api = AppConstants.APIS.PERMISSION_API;
+      apiType = POST_PERMISSION;
+    } else if (type === 'custom') {
+      api = AppConstants.APIS.CUSTOM_API;
+      apiType = POST_CUSTOM;
+    }
+    const resp = await axios.post(api, payload);
+
+    dispatch({
+      apiType,
+      payload: resp || {}
     });
   };
 };

@@ -7,7 +7,10 @@ import _ from 'lodash';
 // Actions
 import {
   FETCH_FS,
-  FETCH_FS_APPS
+  FETCH_FS_APPS,
+  POST_ANONYMIZE,
+  POST_PERMISSION,
+  POST_CUSTOM
 } from '../actions/groupsapis';
 
 /**
@@ -24,6 +27,21 @@ function groupsapis(state = {}, action) {
       return {
         ...state,
         fsData: payload
+      };
+    case POST_ANONYMIZE:
+      return {
+        ...state,
+        anonymizeData: payload
+      };
+    case POST_PERMISSION:
+      return {
+        ...state,
+        permissionData: payload
+      };
+    case POST_CUSTOM:
+      return {
+        ...state,
+        customData: payload
       };
     case FETCH_FS_APPS:
       const data = _.map(payload.group_results[0].entity_results, result => {

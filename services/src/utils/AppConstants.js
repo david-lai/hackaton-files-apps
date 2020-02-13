@@ -5,7 +5,10 @@
 //
 const AppConstants = {
   APIS: {
-    GROUPS_API : '/api/nutanix/v3/groups'
+    GROUPS_API : '/api/nutanix/v3/groups',
+    ANONYMIZE_API : '/api/nutanix/v3/services/files_app_service_anonymize_aplos',
+    PERMISSION_API : '/api/nutanix/v3/services/files_app_service_permission_aplos',
+    CUSTOM_API: '/api/nutanix/v3/services/files_app_service_custom_aplos'
   },
 
   // State for when an action is enabled

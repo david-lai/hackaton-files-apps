@@ -16,6 +16,10 @@ import {
   Tooltip
 } from 'prism-reactjs';
 
+import FilesAppAnonymize from './FilesAppAnonymize.jsx';
+import ShareLevelPermissions from './ShareLevelPermissions.jsx';
+import FileServerSettings from './FileServerSettings.jsx';
+
 // Actions
 import {
   fetchFsAppData
@@ -121,17 +125,56 @@ class FilesApps extends React.Component {
     super(props);
 
     this.state = {
-
+      showAnonymize: false,
+      showPermissions: false,
+      showCustom: false
     };
 
     this.renderDashboard = this.renderDashboard.bind(this);
     this.openApp = this.openApp.bind(this);
+    this.closeAnonymize = this.closeAnonymize.bind(this);
+    this.closePermissions = this.closePermissions.bind(this);
+    this.closeCustom = this.closeCustom.bind(this);
   }
 
   // Event handler to open App
   openApp(e) {
     const appUrl = e.currentTarget.getAttribute('data-url');
-    window.open(appUrl, '_blank');
+    if (appUrl.indexOf('files_app_anonymize') > 0) {
+      this.setState({
+        showAnonymize: true
+      });
+    } else if (appUrl.indexOf('files_app_permission') > 0) {
+      this.setState({
+        showPermissions: true
+      });
+    } else if (appUrl.indexOf('files_app_custom') > 0) {
+      this.setState({
+        showCustom: true
+      });
+    } else {
+      // window.open('file:///Users/david.lai/Downloads/Performance%203/index.html', '_blank')
+      // https://10.51.48.199:9440/files_app_anonymize
+      window.open(appUrl, '_blank');
+    }
+  }
+
+  closeAnonymize() {
+    this.setState({
+      showAnonymize: false
+    });
+  }
+
+  closePermissions() {
+    this.setState({
+      showPermissions: false
+    });
+  }
+
+  closeCustom() {
+    this.setState({
+      showCustom: false
+    });
   }
 
   // Returns App dashboard
@@ -234,13 +277,27 @@ class FilesApps extends React.Component {
         })
       }
     };
+    const { showAnonymize, showPermissions, showCustom } = this.state;
 
     return (
-      <Dashboard { ...pros }>
-        { _.map(data, app => {
-          return this.renderDashboard(app);
-        }) }
-      </Dashboard>
+      <div>
+        { showAnonymize === false && showPermissions === false && showCustom === false &&
+          <Dashboard { ...pros }>
+            { _.map(data, app => {
+              return this.renderDashboard(app);
+            }) }
+          </Dashboard>
+        }
+        { showAnonymize !== false &&
+          <FilesAppAnonymize closeAnonymize={ this.closeAnonymize } />
+        }
+        { showPermissions !== false &&
+          <ShareLevelPermissions closePermissions={ this.closePermissions } />
+        }
+        { showCustom !== false &&
+          <FileServerSettings closeCustom={ this.closeCustom } />
+        }
+      </div>
     );
   }
 
